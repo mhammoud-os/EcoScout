@@ -17,9 +17,9 @@ const Dashboard = ({ markers }) => {
           {markers.map((marker) => (
             <tr key={marker.id}>
               <td>{marker.id}</td>
-              <td>{marker.position.lat}</td>
-              <td>{marker.position.lng}</td>
-              <td>{marker.info}</td>
+              <td>{marker.lat}</td>
+              <td>{marker.lng}</td>
+              <td>{marker.description}</td>
             </tr>
           ))}
         </tbody>

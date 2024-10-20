@@ -63,12 +63,13 @@ const Map = ({ markers, addMarker, removeMarker, fetchMarkerData }) => {
       const renderMarkers = () => {
         markers.forEach((marker) => {
           const googleMarker = new window.google.maps.Marker({
-            position: marker.position,
+            lat: marker.lat,
+            lng: marker.lng,
             map: map,
-            title: marker.info,
+            title: marker.description,
           });
 
-          const googleMapsLink = `https://www.google.com/maps/dir/?api=1&destination=${marker.position.lat},${marker.position.lng}`;
+          const googleMapsLink = `https://www.google.com/maps/dir/?api=1&destination=${marker.lat},${marker.lng}`;
           const infoWindowContent = `
             <div>
               <h4>${marker.info}</h4>
@@ -97,7 +98,7 @@ const Map = ({ markers, addMarker, removeMarker, fetchMarkerData }) => {
       loadMap();
     } else {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBztOGvKNV_K2Fdn1KN-of0sPBzozab43g`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAWlcji8i4XZiiL6WGa2PMg7C-E6yGvFC4`;
       script.onload = loadMap;
       document.body.appendChild(script);
     }

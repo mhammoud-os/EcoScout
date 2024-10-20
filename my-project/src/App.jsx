@@ -32,8 +32,6 @@ const App = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        lat: 1,
-        lng: 2,
         body: JSON.stringify(newMarker),
       });
       fetchMarkerData();

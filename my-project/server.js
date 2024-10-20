@@ -51,11 +51,11 @@ app.get('/markers', (req, res) => {
 });
 
 app.post('/ADD', (req, res) => {
-    const { lat, lng, info } = req.body;
     console.log(`ADD`);
-    console.log(req.lat);
-    db.run(`INSERT INTO markers (lat, lng, description) VALUES (?,?, ?)`, [lat, lng, info], function (err) {
+    console.log(req.body.lat);
+    db.run(`INSERT INTO points (lat, lng, description) VALUES (?,?, ?)`, [req.body.lat, req.body.lng, req.body.info], function (err) {
         if (err) {
+            console.log(err.message);
             res.status(500).json({ error: err.message });
             return;
         }

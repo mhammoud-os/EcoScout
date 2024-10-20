@@ -106,11 +106,10 @@ const Map = ({ markers, addMarker, removeMarker, fetchMarkerData }) => {
 
   // Randomtest addMarker
   const handleAddMarker = () => {
-    const newPosition = {
-      lat: Number(i1),
-      lng: Number(i2),
-    };
-    
+    const newPosition = [
+      Number(i1), Number(i2)
+    ];
+
     if (i1 != null || i2 != null) {
       addMarker(newPosition);
       setI1(null)

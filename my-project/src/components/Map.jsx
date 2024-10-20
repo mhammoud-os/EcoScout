@@ -1,12 +1,14 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const containerStyle = {
   width: '100%',
   height: '600px',
 };
 
-const Map = ({ markers, addMarker, removeMarker }) => {
+const Map = ({ markers, addMarker, removeMarker, fetchMarkerData }) => {
   const mapRef = useRef(null);
+  const [i1, setI1] = useState(null);
+  const [i2, setI2] = useState(null);
 
   useEffect(() => {
     const loadMap = () => {
@@ -72,6 +74,7 @@ const Map = ({ markers, addMarker, removeMarker }) => {
               <h4>${marker.info}</h4>
               <a href="${googleMapsLink}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
             </div>
+            <div>Add to my list</div>
           `;
 
           const infoWindow = new window.google.maps.InfoWindow({
@@ -94,7 +97,7 @@ const Map = ({ markers, addMarker, removeMarker }) => {
       loadMap();
     } else {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCPjN2nF6KyVeu0PLIkUQORB2TVTgg2XhA`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBztOGvKNV_K2Fdn1KN-of0sPBzozab43g`;
       script.onload = loadMap;
       document.body.appendChild(script);
     }
@@ -103,18 +106,73 @@ const Map = ({ markers, addMarker, removeMarker }) => {
   // Randomtest addMarker
   const handleAddMarker = () => {
     const newPosition = {
-      lat: 40.730610 + Math.random() * 0.01,
-      lng: -73.935242 + Math.random() * 0.01,
+      lat: Number(i1),
+      lng: Number(i2),
     };
-    addMarker(newPosition);
+    
+    if (i1 != null || i2 != null) {
+      addMarker(newPosition);
+      setI1(null)
+      setI1(null)
+    }
+  };
+
+  const handleI1 = (event) => {
+    setI1(event.target.value);
+  };
+
+  const handleI2 = (event) => {
+    setI2(event.target.value);
   };
 
   return (
     <div>
-      <h2 className='text-3xl m-4'>Eco Map</h2>
+      <h2 className='text-3xl m-4'>Litter Map</h2>
       <div ref={mapRef} style={containerStyle} />
-      <button className='bg-green-400 m-4 h-12 w-40 rounded-lg text-white text-xl' onClick={handleAddMarker}>Add Marker</button>
-      <button className='bg-red-400 h-12 w-40 rounded-lg text-white text-xl' onClick={removeMarker}>Remove Marker</button>
+      
+      <div className='flex flex-row w-full m-4'>
+        <div className='flex flex-col flex-shrink w-min bg-green-600 rounded-lg p-2 mr-4'>
+          <h1 className='text-white font-bold text-xl my-2'>Report Litter</h1>
+          <p className='text-white'>Latitude</p>
+          <input
+            type="text"
+            value={i1} 
+            onChange={handleI1} 
+            placeholder="Enter value" 
+            className='w-full h-6 my-2'>
+          </input>
+
+
+          <p className='text-white'>Longitude</p>
+          <input
+            type="text"
+            value={i2} 
+            onChange={handleI2} 
+            placeholder="Enter value" 
+            className='w-full h-6 my-2'>
+          </input>
+
+
+
+          <button className='bg-green-400 h-12 w-40 rounded-lg text-white text-xl' onClick={handleAddMarker}>Report</button>
+        </div>
+
+        <div className='flex flex-col flex-shrink w-min h-min bg-red-600 rounded-lg p-2 mr-4'>
+          <h1 className='text-white font-bold text-xl my-2'>Litter Collected</h1>
+          <p className='text-white'>Litter Id</p>
+          <input
+            type="text"
+            value={i1} 
+            onChange={handleI1} 
+            placeholder="Enter value" 
+            className='w-full h-6 my-2'>
+          </input>
+
+          <button className='bg-red-400 h-12 w-40 rounded-lg text-white text-xl' onClick={removeMarker}>Report</button>
+        </div>
+      </div>
+
+
     </div>
   );
 };

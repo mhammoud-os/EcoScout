@@ -7,6 +7,12 @@ import Dashboard from './components/Dashboard';
 const App = () => {
   const [markers, setMarkers] = useState([]);
   
+  setTimeout(() => {
+    fetchMarkerData()
+    console.log("refresh")
+  }, 60000);
+
+
   const removeMarker = () => {
     // if (markers.length > 0) {
     //   setMarkers(markers.slice(0, markers.length - 1));
@@ -30,7 +36,7 @@ const App = () => {
         },
         body: JSON.stringify(newMarker),
       });
-      fetchServerData();
+      fetchMarkerData();
       return;
   
     } catch (error) {
@@ -38,7 +44,7 @@ const App = () => {
     }
   };
 
-  async function fetchServerData() {
+  async function fetchMarkerData() {
     try {
       const res = await fetch(`http://localhost:3000/markers`);
       const data = await res.json();
@@ -50,9 +56,20 @@ const App = () => {
       }
       
       console.log(data)
-      
-      setMarkers(data)
-      // return data;
+      console.log(markers)
+
+      if (markers.length !== data.length) {
+        console.log('len')
+        setMarkers(data)
+      } else {
+        for (let i = 0; i < markers.length; i++) {
+          if (markers[i].id !== data[i].id) {
+            console.log('for')
+            setMarkers(data)
+            break;
+          } 
+        }
+      }
   
     } catch (error) {
       console.log(error)
@@ -71,7 +88,7 @@ const App = () => {
       <div>
         <h1 className='text-4xl font-bold flex justify-center p-6'>EcoScout</h1>
         <div className='flex flex-row justify-center p-1 my-2 w-full h-10'>
-          <button className='w-40 h-8 bg-gray-200 text-center rounded-lg' onClick={fetchServerData}>Fetch New Data</button>
+          <button className='w-40 h-8 bg-gray-200 text-center rounded-lg' onClick={fetchMarkerData}>Fetch New Data</button>
         </div>
         
         <nav className='flex flex-row justify-around p-4 bg-gray-200 align-middle'>
@@ -86,7 +103,7 @@ const App = () => {
           />
           <Route
             path="/map"
-            element={<Map markers={markers} addMarker={addMarker} removeMarker={removeMarker} />}
+            element={<Map markers={markers} addMarker={addMarker} removeMarker={removeMarker} fetchMarkerData={fetchMarkerData}/>}
           />
           <Route path="/dashboard" element={<Dashboard markers={markers} />} />
         </Routes>

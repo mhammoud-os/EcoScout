@@ -4,7 +4,7 @@ const Dashboard = ({ markers }) => {
   return (
     <div>
       <h2 className='text-3xl m-4'>Dashboard</h2>
-      <table className='m-4 w-2/3 h-1/2 text-center'>
+      <table className='m-4 px-10 w-full h-1/2 text-center'>
         <thead>
           <tr>
             <th>ID</th>

@@ -9,6 +9,7 @@ const Map = ({ markers, addMarker, removeMarker, fetchMarkerData }) => {
   const mapRef = useRef(null);
   const [i1, setI1] = useState(null);
   const [i2, setI2] = useState(null);
+  const [i3, setI3] = useState(null);
   const [myList, setMyList] = useState([]);
 
   useEffect(() => {
@@ -77,12 +78,11 @@ const Map = ({ markers, addMarker, removeMarker, fetchMarkerData }) => {
 
           const infoWindowContent = `
             <div>
-              <h4>${marker.description}</h4>
+              <h4>Litter number: ${marker.id}</h4>
               <a href="${googleMapsLink}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
               <br />
               <button class='listmarker'>Add to my list</button>
             </div>
-            <div>Add to my list</div>
           `;
 
           const infoWindow = new window.google.maps.InfoWindow({
@@ -115,7 +115,10 @@ const Map = ({ markers, addMarker, removeMarker, fetchMarkerData }) => {
       document.body.appendChild(script);
     }
   }, [markers]);
-
+  const handleRemoveMarker = () => {
+    removeMarker(Number(i3));
+    setI3(null)
+  };
   // Randomtest addMarker
   const handleAddMarker = () => {
     const newPosition = [
@@ -157,7 +160,6 @@ const Map = ({ markers, addMarker, removeMarker, fetchMarkerData }) => {
 
   return (
     <div>
-      <h2 className='text-3xl m-4'>Litter Locator</h2>
       <div ref={mapRef} style={containerStyle} />
       
       <div className='flex flex-row w-full m-4'>
@@ -192,14 +194,14 @@ const Map = ({ markers, addMarker, removeMarker, fetchMarkerData }) => {
           <p className='text-white'>ID</p>
           <input
             type="text"
-            value={i1} 
-            onChange={console.log("")}
+            value={i3}
+            onChange={(e)=> setI3(e.target.value)}
             //onChange={handleI1}
             placeholder="Enter value"
             className='w-full h-6 my-2'>
           </input>
 
-          <button className='bg-red-400 h-12 w-40 rounded-lg text-white text-xl' onClick={() => console.log(myList)}>Submit</button>
+          <button className='bg-red-400 h-12 w-40 rounded-lg text-white text-xl' onClick={handleRemoveMarker}>Submit</button>
         </div>
 
         <div>

@@ -21,10 +21,26 @@ const App = () => {
   }, 60000);
 
 
-  const removeMarker = () => {
-    // if (markers.length > 0) {
-    //   setMarkers(markers.slice(0, markers.length - 1));
-    // }
+  async function removeMarker(id) {
+    const newMarker = {
+      id: id,
+    };
+
+    try {
+      const res = await fetch(`http://localhost:3000/REMOVE`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMarker),
+      });
+      //fetchMarkerData();
+      return;
+
+    } catch (error) {
+      console.log("ERRROR :)")
+      console.log(error)
+    }
   };
 
   async function addMarker(position) {

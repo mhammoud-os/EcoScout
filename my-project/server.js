@@ -21,6 +21,7 @@ db.serialize(() => {
             console.error('Error creating table:', err.message);
         } else {
             console.log('Table "points" created successfully or already exists');
+            /*
             db.run(`
                 INSERT INTO points (lat, lng, description) 
                 VALUES 
@@ -34,6 +35,7 @@ db.serialize(() => {
                     console.log('Default values inserted successfully');
                 }
             });
+            */
         }
     });
 });
@@ -62,7 +64,19 @@ app.post('/ADD', (req, res) => {
         res.json({ id: this.lastID });
     });
 });
-
+app.post('/REMOVE', (req, res) => {
+    console.log(`REMOVE`);
+    const id = req.body.id;
+    console.log(id);
+    db.run(`DELETE FROM points WHERE id = ?`, [id], function (err) {
+        if (err) {
+            console.log(err.message);
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({ message: `Row deleted with ID: ${id}` });
+    });
+});
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
